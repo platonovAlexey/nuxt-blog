@@ -23,19 +23,48 @@
         >
       </div>
     </header>
-    <main class="postcontent">
+    <main class="post-content">
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, assumenda?</p>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, assumenda?</p>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, assumenda?</p>
     </main>
-    <footer></footer>
+    <footer>
+      <app-comment-form 
+        @created="createCommentHandler"
+        v-if="canAddComment"
+      />
+      <div class="comments" v-if="true">
+        <app-comment 
+          v-for="comment in 4"
+          :key="comment"
+          :comment="comment"
+        />
+      </div>
+      <div class="text-center" v-else>Комментариев нет</div>
+    </footer>
   </article>
 </template>
 
 <script>
+import AppComment from '@/components/main/Comment'
+import AppCommentForm from '@/components/main/CommentForm'
 export default {
   validate({params}) {
     return Boolean(params.id)
+  },
+  data() {
+    return {
+      canAddComment: true
+    }
+  },
+  components: {
+    AppComment,
+    AppCommentForm
+  },
+  methods: {
+    createCommentHandler() {
+      this.canAddComment = false
+    }
   }
 }
 </script>
