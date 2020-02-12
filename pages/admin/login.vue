@@ -55,8 +55,13 @@ export default {
   mounted () {
     const {message} = this.$route.query
 
-    if (message === 'login') {
-      this.$message.info('Войдите в систему')
+    switch (message) {
+      case 'login':
+        this.$message.info('Войдите в систему')
+        break
+      case 'logout':
+        this.$message.success('Вы вышли из системы')
+        break
     }
   },
   methods: {
@@ -71,7 +76,7 @@ export default {
               login: this.controls.login,
               password: this.controls.password
             }
-            console.log('formData', formData)
+
             await this.$store.dispatch('auth/login', formData)
             this.$router.push('/admin')
 
