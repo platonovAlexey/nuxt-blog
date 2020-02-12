@@ -52,6 +52,13 @@ export default {
       }
     }
   },
+  mounted () {
+    const {message} = this.$route.query
+
+    if (message === 'login') {
+      this.$message.info('Войдите в систему')
+    }
+  },
   methods: {
     onSubmit () {
       this.$refs.form.validate(async valid => {
