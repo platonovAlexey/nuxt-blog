@@ -7,9 +7,9 @@ module.exports.login = async (req, res) => {
   const candidate = await User.findOne({login: req.body.login})
 
   if (candidate) {
-    const isPasswodCorrect = bcrypt.compareSync(req.body.password, candidate.password)
+    const isPasswordCorrect = bcrypt.compareSync(req.body.password, candidate.password)
 
-    if (isPasswodCorrect) {
+    if (isPasswordCorrect) {
       const token = jwt.sign({
         login: candidate.login,
         userId: candidate._id
@@ -32,7 +32,7 @@ module.exports.createUser = async (req, res) => {
     const salt = bcrypt.genSaltSync(10)
     const user = new User({
       login: req.body.login,
-      passwod: bcrypt.hashSync(req.body.password, salt)
+      password: bcrypt.hashSync(req.body.password, salt)
     })
 
     await user.save()
