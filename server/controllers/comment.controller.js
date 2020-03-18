@@ -12,8 +12,8 @@ module.exports.create = async (req, res) => {
     post.comments.push(comment._id)
     await post.save()
 
-    res.status(2001).json(comment)
+    res.status(201).json(comment)
   } catch (e) {
-    res.states(500).json(500)
+    res.status(500).json(500)
   }
 }
