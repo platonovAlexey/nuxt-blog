@@ -19,7 +19,6 @@ export const actions = {
   async login({commit, dispatch}, formData) {
     try {
       const {token} = await this.$axios.$post('/api/auth/admin/login', formData)
-      console.log('token', token)
       dispatch('setToken', token)
     } catch (e) {
       commit('setError', e, {root: true})
@@ -28,9 +27,8 @@ export const actions = {
   },
   async createUser({commit}, formData) {
     try {
-      console.log('formData', formData)
       await this.$axios.$post('/api/auth/admin/create', formData)
-    } catch(e) {
+    } catch (e) {
       commit('setError', e, {root: true})
       throw e
     }
@@ -46,24 +44,26 @@ export const actions = {
     Cookies.remove('jwt-token')
   },
   autoLogin({dispatch}) {
-    const cookieStr = process.browser ? document.cookie : this.app.context.req.headers.cookie
+    const cookieStr = process.browser
+      ? document.cookie
+      : this.app.context.req.headers.cookie
 
     const cookies = Cookie.parse(cookieStr || '') || {}
     const token = cookies['jwt-token']
-    
+
     if (isJWTValid(token)) {
       dispatch('setToken', token)
     } else {
       dispatch('logout')
     }
   }
-
 }
 
 export const getters = {
   isAuthenticated: state => Boolean(state.token),
   token: state => state.token
 }
+
 
 function isJWTValid(token) {
   if (!token) {

@@ -1,22 +1,21 @@
 <template>
-<div class="admin-layout-wrapper">
-  <el-container :style="{height: '100%'}">
-    <el-aside width="250px">
-      <app-aside />
-    </el-aside>
-    <el-main>
-      <nuxt />
-    </el-main>
-  </el-container>
-</div>
+  <div class="admin-layout-wrap">
+    <el-container :style="{height: '100%'}">
+      <el-aside width="250px">
+        <app-aside />
+      </el-aside>
+      <el-main>
+        <nuxt />
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>
 import AppAside from '@/components/admin/Aside'
+
 export default {
-  components: {
-    AppAside
-  },
+  components: {AppAside},
   computed: {
     error() {
       return this.$store.getters.error
@@ -24,6 +23,7 @@ export default {
   },
   watch: {
     error(value) {
+      console.log('value admin', value)
       this.$message.error(value.response.data.message)
     }
   }
@@ -31,8 +31,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.admin-layout-wrapper{
-  width: 100%;
-  height: 100vh;
-}
+  .admin-layout-wrap {
+    width: 100%;
+    height: 100vh;
+  }
 </style>
+
+

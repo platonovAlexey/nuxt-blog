@@ -1,8 +1,9 @@
 <template>
   <el-table
     :data="posts"
-    style="width: 100%">
-    <el-table-column 
+    style="width: 100%"
+  >
+    <el-table-column
       prop="title"
       label="Название"
     />
@@ -31,7 +32,7 @@
             icon="el-icon-edit"
             type="primary"
             circle
-            @click="open(row._id)" 
+            @click="open(row._id)"
           />
         </el-tooltip>
         <el-tooltip effect="dark" content="Удалить пост" placement="top">
@@ -39,11 +40,9 @@
             icon="el-icon-delete"
             type="danger"
             circle
-            @click="remove(row._id)" 
+            @click="remove(row._id)"
           />
         </el-tooltip>
-        
-        
       </template>
     </el-table-column>
   </el-table>
@@ -63,19 +62,17 @@ export default {
     },
     async remove(id) {
       try {
-        await this.$confirm('Удалить пост ?', 'Внимание!', {
+        await this.$confirm('Удалить пост?', 'Внимание!', {
           confirmButtonText: 'Да',
           cancelButtonText: 'Отменить',
           type: 'warning'
         })
         await this.$store.dispatch('post/remove', id)
         this.posts = this.posts.filter(p => p._id !== id)
-        
-        this.$message.success('Пост удалён')
-      } catch (e) {
 
-      }
-      
+        this.$message.success('Пост удален')
+      } catch (e) {}
+
     }
   }
 }

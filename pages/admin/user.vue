@@ -1,28 +1,31 @@
 <template>
-  <el-form 
-    @submit.native.prevent="onSubmit" 
-    :model="controls" 
-    :rules="rules" 
+  <el-form
+    :model="controls"
+    :rules="rules"
     ref="form"
-    class="form-user"
-    >
+    @submit.native.prevent="onSubmit"
+  >
     <h2>Создать пользователя</h2>
+
     <el-form-item label="Логин" prop="login">
       <el-input v-model.trim="controls.login" />
     </el-form-item>
+
     <div class="mb2">
       <el-form-item label="Пароль" prop="password">
-        <el-input v-model.trim="controls.password" type="password"/>
+        <el-input v-model.trim="controls.password" type="password" />
       </el-form-item>
     </div>
+
     <el-form-item>
-      <el-button 
-        type="primary" 
-        round
+      <el-button
+        type="primary"
         native-type="submit"
+        round
         :loading="loading"
-        >
-        Создать</el-button>
+      >
+        Создать
+      </el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -44,16 +47,15 @@ export default {
         ],
         password: [
           { required: true, message: 'Введите пароль', trigger: 'blur' },
-          { min: 6, message: 'Пароль должен быть не менее 6 символов', trigger: 'blur'}
+          { min: 6, message: 'Пароль должен быть не менее 6 символов', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit() {
       this.$refs.form.validate(async valid => {
         if (valid) {
-          
           this.loading = true
 
           try {
@@ -63,13 +65,12 @@ export default {
             }
 
             await this.$store.dispatch('auth/createUser', formData)
-            this.$message.success('Пользователь добавлен')
-
+            this.$message.success('Новый пользователь добавлен')
             this.controls.login = ''
             this.controls.password = ''
             this.loading = false
 
-          } catch(e) {
+          } catch (e) {
             this.loading = false
           }
         }
@@ -80,7 +81,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-user{
-  max-width: 600px;
-}
+  form {
+    width: 600px;
+  }
 </style>
+

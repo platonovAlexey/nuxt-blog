@@ -1,16 +1,26 @@
 <template>
-  <el-form 
-    @submit.native.prevent="onSubmit" 
-    :model="controls" 
-    :rules="rules" 
+  <el-form
+    :model="controls"
+    :rules="rules"
     ref="form"
-    >
+    @submit.native.prevent="onSubmit"
+  >
+
     <h1 class="mb">Создать новый пост</h1>
+
     <el-form-item label="Введите название поста" prop="title">
-      <el-input v-model="controls.title" />
+      <el-input
+        v-model="controls.title"
+      />
     </el-form-item>
+
     <el-form-item label="Текст в формате .md или .html" prop="text">
-      <el-input v-model="controls.text" type="textarea" resize="none" :rows="10"/>
+      <el-input
+        type="textarea"
+        v-model="controls.text"
+        resize="none"
+        :rows="10"
+      />
     </el-form-item>
 
     <el-button class="mb" type="success" plain @click="previewDialog = true">
@@ -26,10 +36,10 @@
     <el-upload
       class="mb"
       drag
-      action="https://jsonplaceholder.typicode.com/posts/"
       ref="upload"
-      :auto-upload="false"
+      action="https://jsonplaceholder.typicode.com/posts/"
       :on-change="handleImageChange"
+      :auto-upload="false"
     >
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">Перетащите картинку <em>или нажмите</em></div>
@@ -37,13 +47,14 @@
     </el-upload>
 
     <el-form-item>
-      <el-button 
-        type="primary" 
-        round
+      <el-button
+        type="primary"
         native-type="submit"
+        round
         :loading="loading"
-        >
-        Создать пост</el-button>
+      >
+        Создать пост
+      </el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -54,35 +65,35 @@ export default {
   middleware: ['admin-auth'],
   data() {
     return {
+      image: null,
       previewDialog: false,
       loading: false,
-      image: null,
       controls: {
-        text: '',
-        title: ''
+        title: '',
+        text: ''
       },
       rules: {
         text: [
           { required: true, message: 'Текст не должен быть пустым', trigger: 'blur' }
         ],
         title: [
-          { required: true, message: 'Название поста не должно быть пустым', trigger: 'blur' }
+          { required: true, message: 'Название поста не может быть пустым', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    handleImageChange (file, fileList) {
+    handleImageChange(file, fileList) {
       this.image = file.raw
     },
-    onSubmit () {
+    onSubmit() {
       this.$refs.form.validate(async valid => {
         if (valid && this.image) {
           this.loading = true
 
           const formData = {
-            text: this.controls.text,
             title: this.controls.title,
+            text: this.controls.text,
             image: this.image
           }
 
@@ -93,7 +104,7 @@ export default {
             this.image = null
             this.$refs.upload.clearFiles()
             this.$message.success('Пост создан')
-          } catch(e) {} finally {
+          } catch (e) {} finally {
             this.loading = false
           }
         } else {
@@ -105,8 +116,8 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-form{
-  width: 600px;
-}
+<style lang="scss" scoped>
+  form {
+    width: 600px;
+  }
 </style>

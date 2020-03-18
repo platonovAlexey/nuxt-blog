@@ -1,5 +1,5 @@
 <template>
-  <h1>Admin page</h1>
+  <h1>Welcome to admin page</h1>
 </template>
 
 <script>
@@ -8,3 +8,4 @@ export default {
   middleware: ['admin-auth']
 }
 </script>
+

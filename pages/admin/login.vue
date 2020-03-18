@@ -1,31 +1,35 @@
 <template>
   <el-card
-  shadow="always"
-  :style="{width: '500px'}"
+    shadow="always"
+    :style="{width: '500px'}"
   >
-    <el-form 
-      @submit.native.prevent="onSubmit" 
-      :model="controls" 
-      :rules="rules" 
+    <el-form
+      :model="controls"
+      :rules="rules"
       ref="form"
-      >
+      @submit.native.prevent="onSubmit"
+    >
       <h2>Войти в панель администратора</h2>
+
       <el-form-item label="Логин" prop="login">
         <el-input v-model.trim="controls.login" />
       </el-form-item>
+
       <div class="mb2">
         <el-form-item label="Пароль" prop="password">
-          <el-input v-model.trim="controls.password" type="password"/>
+          <el-input v-model.trim="controls.password" type="password" />
         </el-form-item>
       </div>
+
       <el-form-item>
-        <el-button 
-          type="primary" 
-          round
+        <el-button
+          type="primary"
           native-type="submit"
+          round
           :loading="loading"
-          >
-          Войти</el-button>
+        >
+          Войти
+        </el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -47,31 +51,30 @@ export default {
         ],
         password: [
           { required: true, message: 'Введите пароль', trigger: 'blur' },
-          { min: 6, message: 'Пароль должен быть не менее 6 символов', trigger: 'blur'}
+          { min: 6, message: 'Пароль должен быть не менее 6 символов', trigger: 'blur' }
         ]
       }
     }
   },
-  mounted () {
+  mounted() {
     const {message} = this.$route.query
 
     switch (message) {
       case 'login':
-        this.$message.info('Войдите в систему')
+        this.$message.info('Для начала войдите в систему')
         break
       case 'logout':
-        this.$message.success('Вы вышли из системы')
+        this.$message.success('Вы успешно вышли из системы')
         break
       case 'session':
-        this.$message.warning('Время сессии истекло, перелогиньтесь!')
+        this.$message.warning('Время сессии истекло, пожалуйста зайдите заного')
         break
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit() {
       this.$refs.form.validate(async valid => {
         if (valid) {
-          
           this.loading = true
 
           try {
@@ -83,7 +86,7 @@ export default {
             await this.$store.dispatch('auth/login', formData)
             this.$router.push('/admin')
 
-          } catch(e) {
+          } catch (e) {
             this.loading = false
           }
         }

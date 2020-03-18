@@ -5,34 +5,44 @@
       <el-breadcrumb-item>{{post.title}}</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-form 
-      @submit.native.prevent="onSubmit" 
-      :model="controls" 
-      :rules="rules" 
+    <el-form
+      :model="controls"
+      :rules="rules"
       ref="form"
-      >
-      <!-- <h2>Войти в панель администратора</h2> -->
+      @submit.native.prevent="onSubmit"
+    >
       <el-form-item label="Текст в формате .md или .html" prop="text">
-        <el-input v-model.trim="controls.text" type="textarea" resize="none" :rows="10"/>
+        <el-input
+          type="textarea"
+          v-model="controls.text"
+          resize="none"
+          :rows="10"
+        />
       </el-form-item>
+
       <div class="mb">
         <small class="mr">
           <i class="el-icon-time"></i>
-          <span>{{ new Date(post.date).toLocaleString() }}</span>
+          <span>
+            {{ new Date(post.date).toLocaleString() }}
+          </span>
         </small>
+
         <small>
           <i class="el-icon-view"></i>
           <span>{{ post.views }}</span>
         </small>
       </div>
+
       <el-form-item>
-        <el-button 
-          type="primary" 
-          round
+        <el-button
+          type="primary"
           native-type="submit"
+          round
           :loading="loading"
-          >
-          Обновить</el-button>
+        >
+          Обновить
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -67,8 +77,11 @@ export default {
       }
     }
   },
+  mounted() {
+    this.controls.text = this.post.text
+  },
   methods: {
-    onSubmit () {
+    onSubmit() {
       this.$refs.form.validate(async valid => {
         if (valid) {
           this.loading = true
@@ -80,9 +93,9 @@ export default {
 
           try {
             await this.$store.dispatch('post/update', formData)
-            this.$message.success('Пост обновлён')
+            this.$message.success('Пост обновлен')
             this.loading = false
-          } catch(e) {
+          } catch (e) {
             this.loading = false
           }
         }
@@ -92,11 +105,12 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.page-wrap{
-  width: 600px;
-}
-.mr{
-  margin-right: 2rem;
-}
+<style lang="scss" scoped>
+  .page-wrap {
+    width: 600px;
+  }
+
+  .mr {
+    margin-right: 2rem;
+  }
 </style>
