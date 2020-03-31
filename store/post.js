@@ -68,7 +68,7 @@ export const actions = {
   },
   async addView({commit}, {views, _id}) {
     try {
-      return await this.$axios.$put(`/api/post/view/${_id}`, {views})
+      return await this.$axios.$put(`/api/post/add/view/${_id}`, {views})
     } catch (e) {
       commit('setError', e, {root: true})
       throw e
