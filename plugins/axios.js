@@ -1,8 +1,11 @@
 export default function ({ $axios, redirect, store }) {
+  if (process.server) {
+    $axios.setHeader('accept-encoding', '*')
+  }
+
   $axios.interceptors.request.use(request => {
     if (store.getters['auth/isAuthenticated'] && !request.headers.common['Authorization']) {
-      const token = store.getters['auth/token']
-      request.headers.common['Authorization'] = `Bearer ${token}`
+      request.headers.common['Authorization'] = `Bearer ${store.getters['auth/token']}`
     }
 
     return request
@@ -14,8 +17,9 @@ export default function ({ $axios, redirect, store }) {
         redirect('/admin/login?message=session')
         store.dispatch('auth/logout')
       }
+
       if (error.response.status === 500) {
-        console.error('Server 500 error')
+        console.log('Server 500 error')
       }
     }
   })
