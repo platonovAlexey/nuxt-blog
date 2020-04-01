@@ -43,7 +43,7 @@ export const actions = {
     Cookies.remove('jwt-token')
     commit('clearToken')
   },
-  autoAuth({dispatch}) {
+  autoLogin({dispatch}) {
     const cookieStr = process.browser
       ? document.cookie
       : this.app.context.req.headers.cookie
