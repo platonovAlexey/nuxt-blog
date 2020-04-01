@@ -14,7 +14,8 @@ mongoose.connect(keys.MONGO_URI, {useNewUrlParser: true})
   .catch(error => console.log('ERROR MONGODB!', error))
 
 app.use(passport.initialize())
-passport.use(passportStrategy)
+passportStrategy(passport)
+// passport.use(passportStrategy)
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
